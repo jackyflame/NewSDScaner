@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	
+	
+	
+	<color name="tabMedium">#2B2B2B</color>
+	<color name="tabDark">#000000</color>
+	<color name="tabTransparent">#10ffffff</color>
+	
+	
+	<color name="titlebackgroundcolor">#00ADE8</color>
+    <color name="titletextcolor">#FFFF00</color>
+	
+    
+    <color name="viewfinder_frame">#ff000000</color>
+  	<color name="viewfinder_laser">#00ff0000</color>
+  	<color name="viewfinder_mask">#60000000</color>
+  	
+  	<color name="possible_result_points">#c0ffff00</color>  
+  	<color name="result_image_border">#ffffffff</color>
+  	<color name="result_minor_text">#ffc0c0c0</color>
+  	<color name="result_points">#c000ff00</color>
+  	<color name="result_text">#ffffffff</color>
+  	<color name="result_view">#ff000000</color>
+  
+  	<color name="color_greybackground">#DDDDDD</color>
+  	<color name="color_menubar">#fa5f25 </color>
+    <color name="color_yellow">#fca007</color>
+    <color name="color_blue">#8cdc69</color>
+    <color name="color_pink">#977cfc</color>
+    <color name="color_lightblue">#985bbb</color>
+    <color name="color_white">#ffffff</color>
+    <color name="color_grey">#999999</color>
+    <color name="color_greydark">#555555</color>
+    <color name="color_lightlightblue">#00ffff</color>
+    <color name="color_orange">#f38d6d</color>
+    <color name="color_lightgrey">#C8C8C8</color>
+    <color name="color_tlightgrey">#70C8C8C8</color>
+    <color name="color_twhite">#70ffffff</color>
+    <color name="color_black">#000000</color>
+    <color name="color_red">#ff0000</color>
+    <color name="holo_blue">#FF33B5E5</color>
+    <color name="color_bid">#6ae799</color>
+</resources>

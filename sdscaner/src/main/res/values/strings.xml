@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="hello">Hello World</string>
+    <string name="app_name">MobilePhoneNumberOCR V1.1(16.04.12)</string>
+    <string name="alarmMsg">扫描前请电话号码放在相机架。</string>
+</resources>
