@@ -32,7 +32,7 @@ import com.szOCR.general.CGlobal;
 import com.szOCR.general.RecogResult;
 import com.szOCR.handler.ScanHandler;
 
-public class ScanActivity extends AppCompatActivity implements SensorEventListener, OnClickListener,ScanView {
+public class ScanTestActivity extends AppCompatActivity implements SensorEventListener, OnClickListener, ScanView {
 
     private CameraPreview mCameraPreview;
     private RelativeLayout mHomeLayout;
@@ -60,14 +60,16 @@ public class ScanActivity extends AppCompatActivity implements SensorEventListen
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_scan_test);
 
-        setContentView(R.layout.activity_scan);
-
-        if (CGlobal.myEngine == null) {
-            CGlobal.myEngine = new RecogEngine();
-            CGlobal.myEngine.initEngine();
+        try {
+            if (CGlobal.myEngine == null) {
+                CGlobal.myEngine = new RecogEngine();
+                CGlobal.myEngine.initEngine();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
         bIsAvailable = true;
         mHomeLayout = (RelativeLayout) findViewById(R.id.previewLayout);
         mImageView = (ImageView) findViewById(R.id.imageView1);
@@ -97,6 +99,7 @@ public class ScanActivity extends AppCompatActivity implements SensorEventListen
 
         mCameraPreview = new CameraPreview(this, 0, CameraPreview.LayoutMode.FitToParent);
         LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        //previewLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         mHomeLayout.addView(mCameraPreview, 0, previewLayoutParams);
 
         if (accelerormeterSensor != null)
@@ -110,9 +113,7 @@ public class ScanActivity extends AppCompatActivity implements SensorEventListen
 
         if (wakeLock != null)
             wakeLock.acquire();
-
         ShowResultCtrls(false);
-
         mBtnScanStart.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +135,6 @@ public class ScanActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onPause() {
         super.onPause();
-
         mCameraPreview.cancelAutoFocus();
         if (m_scanHandler != null) {
             m_scanHandler.quitSynchronously();
@@ -167,9 +167,6 @@ public class ScanActivity extends AppCompatActivity implements SensorEventListen
         super.onBackPressed();
     }
 
-    /**
-     * 重力感应回调
-     * */
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -192,7 +189,7 @@ public class ScanActivity extends AppCompatActivity implements SensorEventListen
                 float deltaX = Math.abs(lastX - x);
                 float deltaY = Math.abs(lastY - y);
                 float deltaZ = Math.abs(lastZ - z);
-                //通过计算重力感应来激活自动对焦
+
                 if (mCameraPreview.mCamera != null && deltaX > .2 && !mCameraPreview.bIsStateAutoFocusing) { //AUTOFOCUS (while it is not autofocusing)
                     mCameraPreview.autoCameraFocuse();
                 }
@@ -213,13 +210,15 @@ public class ScanActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    /**
-     * 显示页面画面预览尺寸
-     * */
     public void setAndshowPreviewSize() {
         Camera.Size previewSize = mCameraPreview.getPreviewSize();
         String strPreviewSize = String.valueOf(previewSize.width) + " x " + String.valueOf(previewSize.height);
         mTxtViewPreviewSize.setText(strPreviewSize);
+    }
+
+    @Override
+    public Activity getActivityContext() {
+        return this;
     }
 
     public void returnRecogedData(RecogResult result, Bitmap bmImage) {
@@ -228,17 +227,14 @@ public class ScanActivity extends AppCompatActivity implements SensorEventListen
             vibrator.vibrate(200L);
         CGlobal.g_RecogResult = result;
         CGlobal.g_bitmapPhoneNumber = bmImage;
-
         mImageView.setImageBitmap(bmImage);
-
         String strNumber1 = CGlobal.MakePhoneNumberTypeString(result.m_szNumber);
-
         mEditPhoneNumber1.setText(strNumber1);
-
         if (result.m_nResultCount == 1) {
             mEditPhoneNumber2.setText("");
         } else {
             int i, i1;
+
             mEditPhoneNumber2.setText("");
             String strNumber2 = CGlobal.MakePhoneNumberTypeString(result.m_szNumber1);
             SpannableString spanString = new SpannableString(strNumber2);
@@ -250,11 +246,11 @@ public class ScanActivity extends AppCompatActivity implements SensorEventListen
                     ForegroundColorSpan span = new ForegroundColorSpan(Color.RED);
                     spanString.setSpan(span, i1, i1 + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
+                //else							text = text + "<font color='red'>result.m_szNumber1[i]</font>";
             }
             mEditPhoneNumber2.append(spanString);
         }
         mTxtViewRecogTime.setText(String.valueOf(result.m_nRecogTime));
-
         ShowResultCtrls(true);
 
     }
@@ -267,11 +263,6 @@ public class ScanActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public boolean isAvailable() {
         return bIsAvailable;
-    }
-
-    @Override
-    public Activity getActivityContext() {
-        return this;
     }
 
     private void ShowResultCtrls(boolean bShow) {
@@ -294,7 +285,10 @@ public class ScanActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    public void onAccuracyChanged(Sensor arg0, int arg1) {}
+    public void onAccuracyChanged(Sensor arg0, int arg1) {
+        // TODO Auto-generated method stub
+
+    }
 
     @Override
     public void onClick(View arg0) {

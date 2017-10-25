@@ -15,4 +15,8 @@
 	<style name="WindowTitleBackground">     
         <item name="android:background">@color/titlebackgroundcolor</item>                   
     </style>
+
+	<style name="AppTheme_NotitleBar" parent="Theme.AppCompat.Light.NoActionBar">
+	</style>
+
 </resources> 

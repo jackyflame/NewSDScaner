@@ -1,11 +1,11 @@
 package com.szOCR.handler;
 
-import java.util.concurrent.CountDownLatch;
-
 import android.os.Handler;
 import android.os.Looper;
 
-import com.szOCR.activity.ScanActivity;
+import com.szOCR.activity.ScanView;
+
+import java.util.concurrent.CountDownLatch;
 
 /**
  * This thread does all the heavy lifting of decoding the images. 
@@ -13,11 +13,11 @@ import com.szOCR.activity.ScanActivity;
 final class RecogThread extends Thread {
 
 	public static final String RECOG_BITMAP = "recog_bitmap";
-	private final ScanActivity activity;
+	private final ScanView activity;
 	private Handler handler;
 	private final CountDownLatch handlerInitLatch;
 
-	RecogThread(ScanActivity activity) {
+	RecogThread(ScanView activity) {
 		this.activity = activity;
 		handlerInitLatch = new CountDownLatch(1);
 	}
