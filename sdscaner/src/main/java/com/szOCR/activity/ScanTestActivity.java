@@ -60,8 +60,6 @@ public class ScanTestActivity extends AppCompatActivity implements SensorEventLi
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan_test);
-
         try {
             if (CGlobal.myEngine == null) {
                 CGlobal.myEngine = new RecogEngine();
@@ -70,8 +68,11 @@ public class ScanTestActivity extends AppCompatActivity implements SensorEventLi
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        setContentView(R.layout.activity_scan_test);
+
         bIsAvailable = true;
-        mHomeLayout = (RelativeLayout) findViewById(R.id.previewLayout);
+        mHomeLayout = (RelativeLayout) findViewById(R.id.root_layout);
         mImageView = (ImageView) findViewById(R.id.imageView1);
         mEditPhoneNumber1 = (EditText) findViewById(R.id.editPhoneNumber1);
         mEditPhoneNumber2 = (EditText) findViewById(R.id.editPhoneNumber2);
@@ -97,10 +98,12 @@ public class ScanTestActivity extends AppCompatActivity implements SensorEventLi
     protected void onResume() {
         super.onResume();
 
-        mCameraPreview = new CameraPreview(this, 0, CameraPreview.LayoutMode.FitToParent);
-        LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        mCameraPreview = (CameraPreview) findViewById(R.id.cameraPreview);
+        mCameraPreview.initializePreview(this,0,CameraPreview.LayoutMode.FitToParent);
+        //mCameraPreview = new CameraPreview(this, 0, CameraPreview.LayoutMode.FitToParent);
+        //LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         //previewLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        mHomeLayout.addView(mCameraPreview, 0, previewLayoutParams);
+        //mHomeLayout.addView(mCameraPreview, 0, previewLayoutParams);
 
         if (accelerormeterSensor != null)
             sensorManager.registerListener(this, accelerormeterSensor, SensorManager.SENSOR_DELAY_GAME);

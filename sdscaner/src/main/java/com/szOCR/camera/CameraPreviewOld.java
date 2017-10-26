@@ -1,6 +1,5 @@
 package com.szOCR.camera;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -10,7 +9,6 @@ import android.hardware.Camera.Size;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
@@ -29,7 +27,7 @@ import java.util.List;
 /**
  * This class assumes the parent layout is RelativeLayout.LayoutParams.
  */
-public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback, Camera.AutoFocusCallback, PreviewCallback {
+public class CameraPreviewOld extends SurfaceView implements SurfaceHolder.Callback, Camera.AutoFocusCallback, PreviewCallback {
     private static boolean DEBUGGING = true;
     private static final String LOG_TAG = "CameraPreviewSample";
     private static final String CAMERA_PARAM_ORIENTATION = "orientation";
@@ -73,6 +71,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         NoBlank // Scale to the size that no side is smaller than the parent
     }
 
+    ;
+
     public interface PreviewReadyCallback {
         public void onPreviewReady();
     }
@@ -83,24 +83,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
      */
     protected boolean mSurfaceConfiguring = false;
 
-    public CameraPreview(Context context) {
-        super(context);
-        initView(context);
-    }
-
-    public CameraPreview(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initView(context);
-    }
-
-    public CameraPreview(ScanView activity, int cameraId, LayoutMode mode) {
+    public CameraPreviewOld(ScanView activity, int cameraId, LayoutMode mode) {
         super(activity.getActivityContext()); // Always necessary
-        initializePreview(activity,cameraId,mode);
-    }
-
-    private void initView(Context context){}
-
-    public void initializePreview(ScanView activity,int cameraId, LayoutMode mode){
         mActivity = activity;
         mLayoutMode = mode;
         mHolder = getHolder();
@@ -108,7 +92,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            if (Camera.getNumberOfCameras() > 0) {
+            if (Camera.getNumberOfCameras() > cameraId) {
                 mCameraId = cameraId;
             } else {
                 mCameraId = 0;
@@ -116,6 +100,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         } else {
             mCameraId = 0;
         }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             mCamera = Camera.open(mCameraId);
         } else {
@@ -391,7 +376,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 layoutParams.topMargin = mCenterPosY - (layoutHeight / 2);
                 layoutParams.leftMargin = mCenterPosX - (layoutWidth / 2);
             }
-            //this.setLayoutParams(layoutParams); // this will trigger another surfaceChanged invocation.
+            this.setLayoutParams(layoutParams); // this will trigger another surfaceChanged invocation.
             layoutChanged = true;
         } else {
             layoutChanged = false;

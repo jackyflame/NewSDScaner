@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/root_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/previewLayout"
+    <com.szOCR.camera.CameraPreview
+        android:id="@+id/cameraPreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" >
-    </RelativeLayout>
+    </com.szOCR.camera.CameraPreview>
 
     <RelativeLayout
         android:id="@+id/homeLayout"
